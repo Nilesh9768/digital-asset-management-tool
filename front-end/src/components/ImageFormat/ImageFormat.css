@@ -1,0 +1,8 @@
+.format-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.activeFormat{
+    color: rgba(101, 88, 218, 1);
+}
