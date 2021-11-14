@@ -1,0 +1,28 @@
+
+.sidebar{
+
+    display: flex;
+    flex-direction: column;
+    /* border-right: 1px solid red; */
+    align-items: center;
+}
+
+.sidebar-icons{
+
+    color: gray;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 3.5px 1px;
+    margin: 4px auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.active-tool{
+
+    color: rgba(101, 88, 218,0.8);
+    border-right: 1.2px solid rgba(101, 88, 218,0.8);
+}
