@@ -1,105 +1,120 @@
-import { ChangeEvent, CSSProperties, useState } from 'react'
-import { fabric } from 'fabric'
+import { useState, useEffect } from 'react'
+import ColorPicker from '../ColorPicker/ColorPicker'
 import { IoIosSave } from 'react-icons/io'
-import { createImageFromUrl } from '../../commonFunctions/commonFunction'
+import Jimp from 'jimp'
 import { ToolProp } from '../types'
+import './Frame.css'
+import { getHexVal } from '../../commonFunctions/commonFunction'
 
 export default function Frame({ image, updatedImage, setUpdatedImage, setBlob }: ToolProp) {
 
     const [padding, setPadding] = useState<number>(10)
-    const [url, setUrl] = useState<string>('')
-    const setFrame = (): CSSProperties => {
+    const [framedImage, setFramedImage] = useState<string>(updatedImage)
+    const [showColorPicker, setShowColorPicker] = useState<boolean>(false)
+    const [hex, setHex] = useState<string>('rgb(0,103,255)')
 
-        return {
-            boxSizing: 'border-box',
-            border: `${padding}px solid red`
-        }
+    const setColor = (hex: string) => {
+        setHex(hex)
     }
 
+    const hideColorPicker = () => {
+        setShowColorPicker(false)
+    }
     const addFrame = async () => {
 
-        const img = await createImageFromUrl(updatedImage) as HTMLImageElement
-        const canvas = document.createElement('canvas')
-                                                                                // const canvas = new fabric.Canvas(c, {
-                                                                                //     width: img.naturalWidth,
-                                                                                //     height: img.naturalHeight,
 
-                                                                                // })
-                                                                                // fabric.Image.fromURL(updatedImage, (receievedImg) => {
-                                                                                //     canvas.backgroundImage = receievedImg
-                                                                                // })
-                                                                                // const border = new fabric.Rect({
-                                                                                //     stroke: 'grey',
-                                                                                //     strokeWidth: 20
-                                                                                // })
-                                                                                // canvas.add(border)
-                                                                                // let url = ''
-                                                                                
-                                                                                // console.log(url)
-                                                                                // canvas.loadFromJSON(JSON,()=>{
-                                                                                //     url = canvas.toDataURL()
-                                                                                //     setUrl(url)
-                                                                                // })
-                                                                                // const d1 = JSON.stringify(canvas.toJSON())
-                                                                                // const d2 = canvas.toDataURL
-                                                                                // return new Promise((resolve) => {
-                                                                                //     canvas.getElement().toBlob((blob)=>{
-                                                                                //         resolve(blob)
-                                                                                //     })
-                                                                                    
-                                                                                // })
-                                                                                //    console.log(url)
-                                                                                //    setUpdatedImage(url)
-        canvas.width = img.naturalWidth
-        canvas.height = img .naturalHeight
+        const img = await Jimp.read(updatedImage)
+        const horizontalFrame = new Jimp(img.getWidth(), padding, hex)
+        const verticalFrame = new Jimp(padding, img.getHeight(), hex)
 
-        const context = canvas.getContext('2d')
 
-        if(context){
-            // context.globalCompositeOperation = 'source-over'
-            context?.strokeRect(0,0,canvas.width,canvas.height)
-            context.lineWidth = 10
-            context.strokeStyle = 'red'
-
+        const options = {
+            mode: Jimp.BLEND_SOURCE_OVER,
+            opacityDest: 1,
+            opacitySource: 1
         }
-        canvas.style.border = '10px solid red'
-        context?.drawImage(img,0,0)
-        // let d = context?.getImageData(0,0,canvas.width,canvas.height)
-        // console.log(d)
-        return new Promise((resolve)=>{
-            canvas.toBlob((blob) => resolve(blob))
+        img.composite(horizontalFrame, 0, 0, options)
+        img.composite(horizontalFrame, 0, img.getHeight() - padding, options)
+
+        img.composite(verticalFrame, 0, 0, options)
+        img.composite(verticalFrame, img.getWidth() - padding, 0, options)
+
+        const MIME = img.getMIME()
+        const buffer = await img.getBufferAsync(MIME)
+        const blob = new Blob([buffer as BlobPart], { type: MIME })
+        return new Promise((resolve) => {
+            resolve(blob)
         })
     }
+
+    useEffect(() => {
+        (async () => {
+            const blob = await addFrame()
+            setFramedImage(URL.createObjectURL(blob))
+        })()
+    }, [padding, hex])
+
+    useEffect(()=>{
+        setFramedImage(updatedImage)
+    },[])
+    
     const onSave = async () => {
 
         const blob = await addFrame()
-        console.log(URL.createObjectURL(blob))
-        setUrl(URL.createObjectURL(blob))
-        // console.log(blob)
-        // setBlob(blob as Blob)
-        // setUpdatedImage(URL.createObjectURL(blob))
+        setUpdatedImage(URL.createObjectURL(blob))
+        setFramedImage(URL.createObjectURL(blob))
+        setBlob(blob as Blob)
     }
     return (
         <div className='editor-body' >
-            {console.log(url,'urllll')}
+            {/* {console.log(addFrame())} */}
             <div className='editor-body-sidebar'>
                 <p className='tool-name'>Frames</p>
                 <div>
-                    <p>Padding</p>
+                    <p className='padding-label frame-label'>Padding</p>
                     <input
+                        className='padding-input'
                         type="number"
                         value={padding}
                         onChange={(e) => setPadding(parseInt(e.target.value))}
                     />
                 </div>
-                <img src={url} width={100} height={100} alt="" />
+                <div>
+                    <p className='section-label'>BACKGROUND</p>
+                    <p className='color-label frame-label'>Color</p>
+                    <div
+                        className='color-input'
+                        onClick={() => setShowColorPicker(true)}
+                    >
+                        <div
+                            style={{ width: 12, height: 12, backgroundColor: hex }}
+                        ></div>
+                        <div>
+                            {
+                                hex.charAt(0) === '#' ?
+                                    hex
+                                    : getHexVal(hex)
+                            }
+                        </div>
+
+                    </div>
+                </div>
+                {
+                    showColorPicker ?
+                        <ColorPicker
+                            setColor={setColor}
+                            hideColorPicker={hideColorPicker}
+                            color={hex}
+                        /> :
+                        null
+                }
+
                 <input
                     type="button"
                     value='Reset'
                     className='reset-button'
                     onClick={() => {
                         setUpdatedImage(image)
-                        // setFlippedImage(image)
                     }}
                 />
                 <button
@@ -110,7 +125,7 @@ export default function Frame({ image, updatedImage, setUpdatedImage, setBlob }:
                 </button>
             </div>
             <div className='flip-img-container'>
-                <img src={updatedImage} style={setFrame()} alt="" />
+                <img src={framedImage} alt="" />
             </div>
         </div>
     )

@@ -62,18 +62,7 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
 
     }
 
-    // const createImageFromUrl = (url: string) => {
-
-    //     return new Promise((resolve, reject) => {
-
-    //         const image = new Image()
-    //         console.log(typeof image, 'image type ')
-    //         image.addEventListener('load', () => resolve(image))
-    //         image.addEventListener('error', error => reject(error))
-    //         image.setAttribute('crossOrigin', 'anonymous')
-    //         image.src = typeof url === 'string' ? url : ''
-    //     })
-    // }
+   
     const getCroppedImage = async (currentImageUrl: string, croppedArea?: Area) => {
 
         const img = await createImageFromUrl(currentImageUrl)
@@ -100,7 +89,7 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
         return new Promise((resolve) => {
             canvas.toBlob((blob) => {
                 resolve(blob)
-            }, 'image/jpeg')
+            })
         })
 
     }

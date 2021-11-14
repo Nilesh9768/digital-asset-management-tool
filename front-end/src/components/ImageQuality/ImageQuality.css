@@ -1,0 +1,43 @@
+.quality-sidebar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.activeQuality {
+    color: rgba(101, 88, 218, 1);
+}
+
+.quality-preview {
+    /* border: 1px green solid; */
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.activeQuality .quality-preview img {
+    border: 3px rgba(101, 88, 218, 1) solid;
+    box-sizing: border-box;
+}
+
+.size-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 15px 1px 1px 15px;
+}
+
+.size {
+    margin: 0;
+    font-size: 12px;
+    text-align: left;
+}
+
+.size-label {
+    font-size: 10px;
+    text-align: left;
+    font-weight: 700;
+    color: rgba(10, 10, 14, 0.5);
+    margin: 0;
+    margin-bottom: 5px;
+}

@@ -1,10 +1,11 @@
-import { useState, useRef, CSSProperties } from 'react'
+import { useState, useRef, CSSProperties, useEffect } from 'react'
 import DimensionInput from '../DimensionInput/DimensionInput'
 import { BsSymmetryHorizontal, BsSymmetryVertical } from 'react-icons/bs'
 import { createImageFromUrl } from '../../commonFunctions/commonFunction'
 import { ToolProp } from '../types'
 import { IoIosSave } from 'react-icons/io'
 import { BiRotateLeft, BiRotateRight } from 'react-icons/bi'
+import Jimp from 'jimp'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
 import './Transform.css'
@@ -40,6 +41,7 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
     }
 
     const rotateImage = async (angle: number) => {
+        console.log(angle,'rotate')
         const img = await createImageFromUrl(updatedImage) as HTMLImageElement;
         const canvas = document.createElement("canvas");
         canvas.width = img.naturalWidth;
@@ -53,11 +55,13 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
         context?.translate(-canvas.width * 0.5, -canvas.height * 0.5)
         context?.drawImage(img, 0, 0)
 
+
         return new Promise((resolve) => {
             canvas.toBlob((blob) => {
                 resolve(blob)
             })
         })
+
     }
 
     const handleFlip = async (direction: string) => {
@@ -68,6 +72,7 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
 
     const handleRotate = async (angle: number) => {
         const blob = await rotateImage(angle) as Blob
+        // console.log(angle,'handle')
         setReceivedBlob(blob)
         setFlippedImage(URL.createObjectURL(blob))
     }
@@ -77,18 +82,22 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
     }
 
     const onSliderChange = (val: number) => {
-        console.log(val)
+        console.log(val,'val')
         setSliderVal(val)
-        handleRotate(val * Math.PI / 180)
+       
     }
 
+    useEffect(()=>{
+        console.log(sliderVal,'eff')
+        handleRotate(sliderVal * Math.PI / 180)
+    },[sliderVal])
 
     return (
         <div className='editor-body'>
             <div className='editor-body-sidebar'>
                 <p className='tool-name'>Transform</p>
                 <DimensionInput />
-                <p className='flip-label'>FLIP</p>
+                <p className='section-label'>FLIP</p>
                 <div className='flip-sidebar'>
                     <div className='right flip-icon' onClick={() => handleFlip('x')}>
                         <BsSymmetryHorizontal />
@@ -99,7 +108,7 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
                         <p>Flip Vertically</p>
                     </div>
                 </div>
-                <p className='preview-label'>PREVIEW</p>
+                <p className='section-label'>PREVIEW</p>
                 <img className='preview-image' src={flippedImage} width='100' height='100' alt="" />
                 <input
                     type="button"
@@ -108,6 +117,7 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
                     onClick={() => {
                         setUpdatedImage(image)
                         setFlippedImage(image)
+                        setSliderVal(0)
                     }}
                 />
                 <button

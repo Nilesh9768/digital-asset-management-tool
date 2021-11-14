@@ -31,7 +31,7 @@ function App() {
 
   const uploadImage = () => {
 
-    const uploadTask = storage.ref(`/images/${file?.name}-${Date.now()}`).put(blob as Blob);
+    const uploadTask = storage.ref(`/images/${file?.name.split('.')[0]}-${Date.now()}.${blob?.type.split('/')[1]}`).put(blob as Blob);
 
     uploadTask.on('state_changed', fn1, fn2, fn3);
     function fn1(snapshot: { bytesTransferred: number; totalBytes: number; }) {

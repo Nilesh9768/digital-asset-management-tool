@@ -52,7 +52,12 @@ function Editor({ image, updatedImage, setUpdatedImage, setBlob, uploadImage }: 
                     setBlob={setBlob}
                 />
             case 4:
-                return <Overlay />
+                return <Overlay
+                image={image}
+                updatedImage={updatedImage}
+                setUpdatedImage={setUpdatedImage}
+                setBlob={setBlob}
+             />
             case 5:
                 return <Frame
                     image={image}
@@ -61,7 +66,12 @@ function Editor({ image, updatedImage, setUpdatedImage, setBlob, uploadImage }: 
                     setBlob={setBlob}
                 />
             case 6:
-                return <ImageQuality />
+                return <ImageQuality
+                image={image}
+                updatedImage={updatedImage}
+                setUpdatedImage={setUpdatedImage}
+                setBlob={setBlob}
+             />
 
             case 7:
                 return <ImageFormat
