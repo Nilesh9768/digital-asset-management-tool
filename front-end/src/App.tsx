@@ -56,7 +56,7 @@ function App() {
                     },
                     presetName
                 })
-                const img = await fetch('http://localhost:5000/images', {
+                const img = await fetch('https://digital-asset-management-tool.herokuapp.com/images', {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ function App() {
 
     const getImages = async () => {
 
-        const response = await fetch('http://localhost:5000/images')
+        const response = await fetch('https://digital-asset-management-tool.herokuapp.com/images')
         const receivedImages = await response.json()
 
         console.log(receivedImages)

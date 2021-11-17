@@ -8,8 +8,8 @@ export const createImageFromUrl = (url: string) => {
         image.addEventListener('load', () => resolve(image))
         image.addEventListener('error', error => reject(error))
         // image.setAttribute('crossOrigin', 'Anonymous')
-        image.crossOrigin = "";
-        image.src =  url 
+        image.crossOrigin = "Anonymous";
+        image.src = url
     })
 }
 

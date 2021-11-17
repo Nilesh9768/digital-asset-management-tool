@@ -8,6 +8,7 @@ dotenv.config()
 
 try {
 
+    console.log(process.env.DB_URL)
     connect(process.env.DB_URL as string, {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -19,10 +20,14 @@ try {
 }
 const app = express()
 
+app.get('/',(req,res)=>{
+    res.send('Hello World!')
+})
+
 app.use(cors())
 app.use(express.json())
 app.use(image)
 
-app.listen(5000, () => {
+app.listen(process.env.PORT || 5000, () => {
     console.log('server listening on 5000')
 })
