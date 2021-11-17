@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+
 import { Link } from 'react-router-dom'
 import { HomeProp, fetchedImageType } from '../types'
 
@@ -23,9 +23,9 @@ export default function Home({ onSelectFile, fetchedImages }: HomeProp) {
                 {
                     fetchedImages.map((image: fetchedImageType) => {
                         return (
-                            <div>
+                            <div key={image._id}>
                                 <Link to={`/images/${image._id}/${image.preset_name}`}>
-                                    <img className='fetched-image' src={image.url} alt="" key={image._id} />
+                                    <img className='fetched-image' src={image.url} alt="" />
                                 </Link>
                             </div>
                         )

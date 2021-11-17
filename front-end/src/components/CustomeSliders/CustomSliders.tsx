@@ -1,5 +1,3 @@
-import Slider from 'rc-slider'
-import 'rc-slider/assets/index.css'
 
 export const handleStyle : React.CSSProperties = {
     backgroundColor: "rgba(101, 88, 218, 1)",

@@ -1,6 +1,5 @@
 import { useState, ChangeEvent, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
-import { storage } from './firebase';
 import Home from './components/Home/Home';
 import Editor from './components/Editor/Editor';
 import ImageDetails from './components/ImageDetails/ImageDetails';
@@ -24,25 +23,12 @@ function App() {
             reader.addEventListener("load", () => {
                 setImage(reader.result as string);
                 setUpdatedImage(reader.result as string)
-                console.log(typeof reader.result)
-                // if(history !== undefined) history.push('/editor')
             });
         }
     }
 
 
     const uploadImage = async (presetName: string) => {
-
-        // const uploadTask = storage.ref(`/images/${file?.name.split('.')[0]}_${Date.now()}.${blob?.type.split('/')[1]}`).put(blob as Blob);
-
-        // uploadTask.on('state_changed', fn1, fn2, fn3);
-        // function fn1(snapshot: { bytesTransferred: number; totalBytes: number; }) {
-        //     let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        //     console.log(`Upload is ${progress} done.`)
-        // }
-        // function fn2(error: any) {
-        //     console.log('error', error)
-        // }
 
         const data = new FormData()
         data.append('file', blob as Blob)
@@ -54,34 +40,32 @@ function App() {
         })
 
         const img = await res.json()
-        // setThumbnail(img.secure_url)
         console.log(img.secure_url)
         const url = img.secure_url
-        // async function fn3() {
-            try {
-        //         var url = await uploadTask.snapshot.ref.getDownloadURL()
-        //         console.log(url)
 
-                const newPreset = JSON.stringify({
-                    url,
-                    metadata: {
-                        size: blob?.size,
-                        format: blob?.type
-                    },
-                    presetName
-                })
-                const img = await fetch('https://digital-asset-management-tool.herokuapp.com/images', {
-                    method: 'post',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: newPreset
-                })
-                console.log(await img.json(), 'imggg')
-            } catch (err) {
-        //         console.log('backend error', err)
-            }
-        // }
+        try {
+
+
+            const newPreset = JSON.stringify({
+                url,
+                metadata: {
+                    size: blob?.size,
+                    format: blob?.type
+                },
+                presetName
+            })
+            const img = await fetch('https://digital-asset-management-tool.herokuapp.com/images', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: newPreset
+            })
+            console.log(await img.json(), 'imggg')
+        } catch (err) {
+
+        }
+
 
     }
 

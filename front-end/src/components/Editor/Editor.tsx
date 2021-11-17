@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import Cropper from "../Cropper/Cropper";
 import Effects from "../Effects/Effects";

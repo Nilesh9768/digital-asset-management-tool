@@ -29,12 +29,6 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
         marginTop: 30
     }
 
-    const cropAreaStyle: CSSProperties = {
-        height: '100%'
-    }
-    const mediaStyle: CSSProperties = {
-        height: "100%"
-    }
     const CropperStyle = {
         containerStyle,
         // mediaStyle,
@@ -59,19 +53,18 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
 
     }
 
-   
+
     const getCroppedImage = async (currentImageUrl: string, croppedArea?: Area) => {
 
         const img = await createImageFromUrl(currentImageUrl) as any
-        // img.crossOrigin = 'Anonymous'
-        // img.src = currentImageUrl
         console.log('img t', img)
         const canvas = document.createElement('canvas')
         const context = canvas.getContext('2d')
 
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
+
         if (croppedArea !== undefined) {
+            canvas.width = croppedArea.width;
+            canvas.height = croppedArea.height;
             context?.drawImage(
                 img as HTMLOrSVGImageElement,
                 croppedArea.x,
@@ -97,7 +90,7 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
             <div className='editor-body-sidebar'>
                 <p className='tool-name'>Crop</p>
 
-                <DimensionInput/>
+                <DimensionInput />
                 <div className='dimension-label'>Common aspect ratios</div>
 
                 <div className='cropper-sidebar'>

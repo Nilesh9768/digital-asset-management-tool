@@ -16,7 +16,7 @@ export default function ImageQuality({ image, updatedImage, setUpdatedImage, set
     const qualityValue = [5, 20, 40, 100, 100, 100]
     const getQualityClassName = (idx: number): string => {
 
-        let cl_name = idx % 2 == 0 ? 'right' : 'left'
+        let cl_name = idx % 2 === 0 ? 'right' : 'left'
         cl_name += idx === activeQuality ? ' activeQuality' : ''
         return cl_name
     }

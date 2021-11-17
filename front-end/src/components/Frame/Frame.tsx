@@ -48,14 +48,18 @@ export default function Frame({ image, updatedImage, setUpdatedImage, setBlob }:
     }
 
     useEffect(() => {
-        (async () => {
+       const tempFun = async () => {
             const blob = await addFrame()
             setFramedImage(URL.createObjectURL(blob))
-        })()
+        }
+        tempFun()
     }, [padding, hex])
 
     useEffect(()=>{
-        setFramedImage(updatedImage)
+        const tempFun = () =>{
+            setFramedImage(updatedImage)
+        }
+        tempFun()
     },[])
     
     const onSave = async () => {

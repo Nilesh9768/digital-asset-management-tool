@@ -12,11 +12,15 @@ export default function DimensionInput({ onDimensionChange,widthVal,heightVal }:
 
 
     useEffect(() => {
-        if (onDimensionChange) {
-            console.log(width, height)
-            onDimensionChange(width, height)
-        }
 
+        const tempFun = () =>{
+            if (onDimensionChange) {
+                console.log(width, height)
+                onDimensionChange(width, height)
+            }
+        }
+        
+        tempFun()
     }, [width, height])
     return (
         <div style={{ display: 'flex', alignItems: 'center' }}>

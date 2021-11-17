@@ -1,22 +1,11 @@
 import { CSSProperties } from "react";
 
-type obj = {
-    x: number,
-    y: number
-}
-
-type FunType = {
-    setPosition: ({ }) => void
-}
-
 export const templateColors = ['#ffd9b3', '#226dce', '#ffcc00', '#00ccff', '#006600', '#6666ff', '#003300']
 
 export const createColorPicker = (canvas: HTMLCanvasElement, color: string) => {
     const context = canvas?.getContext('2d')
 
     if (context) {
-
-        // let color = 'rgba(194, 134, 26, 255)'
         let horizontalGradient = context.createLinearGradient(0, 0, context.canvas.width, 0);
         horizontalGradient.addColorStop(0, '#fff');
         horizontalGradient.addColorStop(1, color);
