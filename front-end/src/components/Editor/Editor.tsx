@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import Cropper from "../Cropper/Cropper";
 import Effects from "../Effects/Effects";
@@ -9,22 +9,35 @@ import ImageQuality from "../ImageQuality/ImageQuality";
 import Overlay from "../Overlay/Overlay";
 import Transform from "../Transform/Transform";
 import './Editor.css'
-
+import { useLocation } from "react-router";
+import {presetType} from '../types'
 type EditorProp = {
     image: string,
+    setImage:(img: string)=>void,
     updatedImage: string,
     setUpdatedImage: (img: string) => void,
     setBlob: (blob: Blob) => void,
-    uploadImage: () => void
+    uploadImage: (presetName:string) => void
 }
-function Editor({ image, updatedImage, setUpdatedImage, setBlob, uploadImage }: EditorProp) {
+function Editor({ image, setImage,updatedImage, setUpdatedImage, setBlob, uploadImage }: EditorProp) {
 
     const [activeTool, setActiveTool] = useState(0)
     const toggleActiveTool = (index: number) => {
         console.log(index)
         setActiveTool(index)
     }
+    const location = useLocation()
+    const state = location.state as presetType
+    console.log(state.presetName,'location')
+    // const {presetName} = location.state
 
+    // useEffect(()=>{
+
+    //     if(state.image){
+    //         setUpdatedImage(state.image.url)
+    //         setImage(state.image.url)
+    //     }
+    // },[])
     const renderActiveTool = () => {
         switch (activeTool) {
 
@@ -53,11 +66,11 @@ function Editor({ image, updatedImage, setUpdatedImage, setBlob, uploadImage }: 
                 />
             case 4:
                 return <Overlay
-                image={image}
-                updatedImage={updatedImage}
-                setUpdatedImage={setUpdatedImage}
-                setBlob={setBlob}
-             />
+                    image={image}
+                    updatedImage={updatedImage}
+                    setUpdatedImage={setUpdatedImage}
+                    setBlob={setBlob}
+                />
             case 5:
                 return <Frame
                     image={image}
@@ -67,11 +80,11 @@ function Editor({ image, updatedImage, setUpdatedImage, setBlob, uploadImage }: 
                 />
             case 6:
                 return <ImageQuality
-                image={image}
-                updatedImage={updatedImage}
-                setUpdatedImage={setUpdatedImage}
-                setBlob={setBlob}
-             />
+                    image={image}
+                    updatedImage={updatedImage}
+                    setUpdatedImage={setUpdatedImage}
+                    setBlob={setBlob}
+                />
 
             case 7:
                 return <ImageFormat
@@ -94,9 +107,10 @@ function Editor({ image, updatedImage, setUpdatedImage, setBlob, uploadImage }: 
                 </div>
             </div>
             <div className='done-container'>
-                <input className='done-button' type="button" value='Done' onClick={() => uploadImage()} />
+                <input className='done-button' type="button" value='Done' onClick={() => uploadImage(state.presetName)} />
             </div>
         </div>
+
     )
 }
 

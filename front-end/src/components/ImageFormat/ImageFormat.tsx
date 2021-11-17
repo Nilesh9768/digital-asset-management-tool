@@ -1,9 +1,7 @@
 
 import { useState } from 'react'
 import { AiOutlineFileImage } from "react-icons/ai";
-import { createImageFromUrl } from '../../commonFunctions/commonFunction';
 import { ToolProp } from '../types';
-import Sharp from 'sharp';
 import jimp from 'jimp'
 import './ImageFormat.css'
 import { IoIosSave } from 'react-icons/io';
@@ -14,7 +12,7 @@ export default function ImageFormat({ image, updatedImage, setUpdatedImage, setB
     const [newBlob, setNewBlob] = useState<Blob>()
     const getFormatClassName = (idx: number): string => {
 
-        let cl_name = idx % 2 == 0 ? 'right' : 'left'
+        let cl_name = idx % 2 === 0 ? 'right' : 'left'
         cl_name += idx === activeFormat ? ' activeFormat' : ''
         return cl_name
     }

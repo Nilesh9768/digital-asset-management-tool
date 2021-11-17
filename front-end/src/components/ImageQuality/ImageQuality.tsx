@@ -23,22 +23,6 @@ export default function ImageQuality({ image, updatedImage, setUpdatedImage, set
 
     const getImage = async (quality: number) => {
 
-        // const img = await Jimp.read(image)
-
-        // const MIME = img.getMIME()
-
-        // console.log(MIME,'MIME')
-        // const buffer = await img.getBufferAsync(MIME)
-        // const blob = new Blob([buffer as BlobPart], { type: Jimp.MIME_JPEG })
-        // const z = await Jimp.read(URL.createObjectURL(blob))
-        // z._quality = quality
-        // const bu = await z.getBufferAsync(MIME)
-        // const b = new Blob([bu as BlobPart], { type: MIME })
-        // // console.log(blob)
-        // return new Promise((resolve) => {
-        //     resolve(b)
-        // })
-
         const img = await createImageFromUrl(updatedImage) as HTMLImageElement;
         const canvas = document.createElement("canvas");
         canvas.width = img.naturalWidth;

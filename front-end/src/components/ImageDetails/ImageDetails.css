@@ -1,0 +1,74 @@
+.image-details-container {
+    /* display: flex;
+    flex-direction: column; */
+    width: 100vw;
+    height: 90vh;
+    margin-top: 20px;
+}
+
+.image-details-container>div>img {
+    width: 65%;
+    height: 50%;
+}
+
+.metadata-preset-container{
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 65%;
+    margin: 10px auto;
+}
+
+.metadata-container>div {
+    margin-bottom: 8px;
+}
+
+.metadata-label {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(10, 10, 14, 0.5);
+}
+
+.metadata {
+    text-align: left;
+    font-size: 12px;
+    color: rgba(10, 10, 14, 1);
+}
+
+.toggle-preset-input{
+
+    font-size: 12px;
+    color: rgb(96, 96, 228);
+    text-align: right;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.toggle-preset-input:hover{
+    color: red;
+}
+
+.preset-input-container{
+    text-align: right;
+}
+
+.preset-input{
+    width: 65%;
+    border: none;
+    border-bottom: 1px solid rgba(10, 10, 14, 0.5);;
+    outline: none;
+    height: 16px;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: white;
+    color: rgba(10, 10, 14, 0.5);
+}
+
+.next-button{
+
+    font-size: 12px;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2px;
+}
