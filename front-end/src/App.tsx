@@ -31,22 +31,36 @@ function App() {
     }
 
 
-    const uploadImage = (presetName: string) => {
+    const uploadImage = async (presetName: string) => {
 
-        const uploadTask = storage.ref(`/images/${file?.name.split('.')[0]}_${Date.now()}.${blob?.type.split('/')[1]}`).put(blob as Blob);
+        // const uploadTask = storage.ref(`/images/${file?.name.split('.')[0]}_${Date.now()}.${blob?.type.split('/')[1]}`).put(blob as Blob);
 
-        uploadTask.on('state_changed', fn1, fn2, fn3);
-        function fn1(snapshot: { bytesTransferred: number; totalBytes: number; }) {
-            let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log(`Upload is ${progress} done.`)
-        }
-        function fn2(error: any) {
-            console.log('error', error)
-        }
-        async function fn3() {
+        // uploadTask.on('state_changed', fn1, fn2, fn3);
+        // function fn1(snapshot: { bytesTransferred: number; totalBytes: number; }) {
+        //     let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //     console.log(`Upload is ${progress} done.`)
+        // }
+        // function fn2(error: any) {
+        //     console.log('error', error)
+        // }
+
+        const data = new FormData()
+        data.append('file', blob as Blob)
+        data.append('upload_preset', 'codex_blog_thumbnail')
+
+        const res = await fetch('https://api.cloudinary.com/v1_1/codex-cloud/image/upload', {
+            method: "post",
+            body: data
+        })
+
+        const img = await res.json()
+        // setThumbnail(img.secure_url)
+        console.log(img.secure_url)
+        const url = img.secure_url
+        // async function fn3() {
             try {
-                var url = await uploadTask.snapshot.ref.getDownloadURL()
-                console.log(url)
+        //         var url = await uploadTask.snapshot.ref.getDownloadURL()
+        //         console.log(url)
 
                 const newPreset = JSON.stringify({
                     url,
@@ -65,9 +79,9 @@ function App() {
                 })
                 console.log(await img.json(), 'imggg')
             } catch (err) {
-                console.log('backend error', err)
+        //         console.log('backend error', err)
             }
-        }
+        // }
 
     }
 
