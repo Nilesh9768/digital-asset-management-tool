@@ -4,11 +4,12 @@ export const createImageFromUrl = (url: string) => {
     return new Promise((resolve, reject) => {
 
         const image = new Image()
-        console.log(typeof image, 'image type ')
+        console.log(image, 'image type ')
         image.addEventListener('load', () => resolve(image))
         image.addEventListener('error', error => reject(error))
-        image.setAttribute('crossOrigin', 'anonymous')
-        image.src = typeof url === 'string' ? url : ''
+        // image.setAttribute('crossOrigin', 'Anonymous')
+        image.crossOrigin = "";
+        image.src =  url 
     })
 }
 

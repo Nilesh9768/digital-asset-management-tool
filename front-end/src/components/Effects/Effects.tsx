@@ -80,7 +80,7 @@ export default function Effects({ image, updatedImage, setUpdatedImage, setBlob 
                 {
                     effectsProperties.map((property, index) => {
                         return (
-                            <div className='effects-slider'>
+                            <div className='effects-slider' key={index}>
                                 <div className='effects-label'>
                                     {property.prop.charAt(0).toUpperCase() + property.prop.slice(1)}
                                 </div>

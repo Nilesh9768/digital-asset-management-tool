@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState, CSSProperties } from 'react'
-import Jimp from 'jimp'
 import { createColorPicker, createSlider, getColor, init, templateColors, handleClick, getTopVal, drag } from './utils'
 import './ColorPicker.css'
 import { getHexVal } from '../../commonFunctions/commonFunction'

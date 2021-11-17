@@ -25,14 +25,11 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
     const [activeAspect, setActiveAspect] = useState<number>(1)
     const containerStyle: CSSProperties = {
         width: '90%',
-        // height:'81%',
         margin: 'auto',
         marginTop: 30
     }
 
     const cropAreaStyle: CSSProperties = {
-        // color:'white',
-        // backdropFilter:'revert',
         height: '100%'
     }
     const mediaStyle: CSSProperties = {
@@ -65,13 +62,15 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
    
     const getCroppedImage = async (currentImageUrl: string, croppedArea?: Area) => {
 
-        const img = await createImageFromUrl(currentImageUrl)
-        console.log('img t', typeof img)
+        const img = await createImageFromUrl(currentImageUrl) as any
+        // img.crossOrigin = 'Anonymous'
+        // img.src = currentImageUrl
+        console.log('img t', img)
         const canvas = document.createElement('canvas')
         const context = canvas.getContext('2d')
 
-        canvas.width = 100;
-        canvas.height = 100;
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
         if (croppedArea !== undefined) {
             context?.drawImage(
                 img as HTMLOrSVGImageElement,
