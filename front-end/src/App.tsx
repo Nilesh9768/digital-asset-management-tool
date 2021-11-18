@@ -12,18 +12,27 @@ function App() {
     const [file, setFile] = useState<File>()
     const [blob, setBlob] = useState<Blob>()
     const [fetchedImages, setFetchedImages] = useState([])
+    const [showFileError,setShowFileError] = useState(false)
     const onSelectFile = async (event: ChangeEvent<HTMLInputElement>) => {
 
         console.log(event.target.files)
 
         if (event.target.files && event.target.files.length > 0) {
-            setFile(event?.target.files[0])
-            const reader = new FileReader();
-            reader.readAsDataURL(event.target.files[0]);
-            reader.addEventListener("load", () => {
-                setImage(reader.result as string);
-                setUpdatedImage(reader.result as string)
-            });
+            const formats = ['PNG', 'JPG', 'TIFF', 'BMP', 'GIF', 'EPS', 'JPEG']
+            const file = event?.target.files[0]
+            const extension: string = file.name.split('.').pop() as string
+            if (formats.indexOf(extension.toUpperCase()) >= 0) {
+                setFile(file)
+                const reader = new FileReader();
+                reader.readAsDataURL(event.target.files[0]);
+                reader.addEventListener("load", () => {
+                    setImage(reader.result as string);
+                    setUpdatedImage(reader.result as string)
+                });
+            }else{
+                console.log('Only png/jpeg/jpg/tiff/bmp/gif/eps types of image is allowed!')
+                setShowFileError(true)
+            }
         }
     }
 
@@ -100,6 +109,8 @@ function App() {
                                 <Home
                                     fetchedImages={fetchedImages}
                                     onSelectFile={onSelectFile}
+                                    showFileError = {showFileError}
+                                    setShowFileError = {setShowFileError}
                                 />
                         }
                     </Route>

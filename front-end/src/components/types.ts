@@ -9,7 +9,9 @@ export type ToolProp = {
 
 export type HomeProp = {
     fetchedImages: fetchedImageType[],
-    onSelectFile: (event: ChangeEvent<HTMLInputElement>) => void
+    onSelectFile: (event: ChangeEvent<HTMLInputElement>) => void,
+    showFileError : boolean,
+    setShowFileError : (val : boolean) => void
 }
 
 export type fetchedImageType = {

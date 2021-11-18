@@ -1,9 +1,9 @@
 
 import { Link } from 'react-router-dom'
 import { HomeProp, fetchedImageType } from '../types'
-
+import {FaTimes} from 'react-icons/fa'
 import './Home.css'
-export default function Home({ onSelectFile, fetchedImages }: HomeProp) {
+export default function Home({ onSelectFile, fetchedImages, showFileError,setShowFileError }: HomeProp) {
 
     return (
         <div>
@@ -17,6 +17,17 @@ export default function Home({ onSelectFile, fetchedImages }: HomeProp) {
                     accept="image/*"
                     onChange={(event) => onSelectFile(event)}
                 />
+
+                {
+                    showFileError ?
+                        <div className='error'>
+                            Only png, jpeg/jpg, tiff, bmp, gif, eps types of image is allowed!
+                            {/* <span className='cross-icon'  onClick={()=>setShowFileError(false)}>
+                                <FaTimes/>
+                            </span> */}
+                        </div> :
+                        null
+                }
             </div>
 
             <div className='image-index-container'>

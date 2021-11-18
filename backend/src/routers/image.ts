@@ -8,8 +8,8 @@ router.get('/images', async (req, res) => {
     try {
         const foundImages = await Image.find({})
         console.log(foundImages)
-        if(!foundImages){
-            return res.status(422).json({error:"Something went wrong!"})
+        if (!foundImages) {
+            return res.status(422).json({ error: "Something went wrong!" })
         }
         return res.json(foundImages)
     } catch (error) {
@@ -21,15 +21,18 @@ router.post('/images', async (req, res) => {
 
 
     try {
-        const { url, metadata,presetName } = req.body
+        const { url, metadata, presetName } = req.body
 
+        if (!url || !presetName) {
+            return res.status(422).json({ error: 'Url and preset name must be there!' })
+        }
         const newImage = new Image({
             url,
             metadata: {
                 size: metadata.size,
                 format: metadata.format
             },
-            preset_name:presetName
+            preset_name: presetName
         })
         const savedImage = await newImage.save()
 
