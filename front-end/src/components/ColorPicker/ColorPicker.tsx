@@ -115,9 +115,9 @@ export default function ColorPicker({ setColor, hideColorPicker, color }: ColorP
             <p>Select From Template</p>
             <div className='color-template-container'>
                 {
-                    templateColors.map(color => {
+                    templateColors.map((color,idx) => {
                         return (
-                            <div
+                            <div key={idx}
                                 className='color-template'
                                 style={{ backgroundColor: color }}
                                 onClick={() => setSelectedColor(color)}

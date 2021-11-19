@@ -1,4 +1,4 @@
-import { useState, CSSProperties } from 'react'
+import { useState, CSSProperties, useEffect } from 'react'
 import ReactCropper from 'react-easy-crop';
 import DimensionInput from '../DimensionInput/DimensionInput';
 import { createImageFromUrl } from '../../commonFunctions/commonFunction';
@@ -23,6 +23,8 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
     const [croppedArea, setCroppedArea] = useState<Area>()
     const [cropShape, setCropShape] = useState<'rect' | 'round' | undefined>('rect')
     const [activeAspect, setActiveAspect] = useState<number>(1)
+    const [localImage,setLocalImage] = useState(updatedImage)
+    
     const containerStyle: CSSProperties = {
         width: '90%',
         margin: 'auto',
@@ -34,6 +36,10 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
         // mediaStyle,
         // cropAreaStyle
     }
+
+    useEffect(() => {
+       setLocalImage(updatedImage) 
+    }, [])
     const setShape = (aspect: number, shape: 'rect' | 'round' | undefined, activeAspect: number) => {
         setAspect(aspect)
         setCropShape(shape)
@@ -45,7 +51,7 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
     }
 
     const onSave = async () => {
-        const blob = await getCroppedImage(updatedImage as string, croppedArea)
+        const blob = await getCroppedImage(localImage as string, croppedArea)
         console.log('blob', blob)
         setBlob(blob as Blob)
         console.log('purl', URL.createObjectURL(blob))
@@ -147,7 +153,7 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
                     type="button"
                     value='Reset'
                     className='reset-button'
-                    onClick={() => setUpdatedImage(image)}
+                    onClick={() => setUpdatedImage(localImage)}
                 />
                 <button
                     className='save'

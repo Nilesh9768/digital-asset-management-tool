@@ -13,6 +13,8 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
     const [flippedImage, setFlippedImage] = useState(updatedImage)
     const [receivedBlob, setReceivedBlob] = useState<Blob>()
     const [sliderVal, setSliderVal] = useState<number>(0)
+    const [localImage,setLocalImage] = useState(updatedImage)
+    
     const flipImage = async (direction: string) => {
 
         const img = await createImageFromUrl(flippedImage) as HTMLImageElement;
@@ -91,6 +93,11 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
         handleRotate(sliderVal * Math.PI / 180)
     },[sliderVal])
 
+    
+    useEffect(() => {
+        setLocalImage(updatedImage)
+    }, [])
+
     return (
         <div className='editor-body'>
             <div className='editor-body-sidebar'>
@@ -107,14 +114,14 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
                         <p>Flip Vertically</p>
                     </div>
                 </div>
-                <p className='section-label'>PREVIEW</p>
-                <img className='preview-image' src={flippedImage} width='100' height='100' alt="" />
+                {/* <p className='section-label'>PREVIEW</p>
+                <img className='preview-image' src={flippedImage} width='100' height='100' alt="" /> */}
                 <input
                     type="button"
                     value='Reset'
                     className='reset-button'
                     onClick={() => {
-                        setUpdatedImage(image)
+                        setUpdatedImage(localImage)
                         setFlippedImage(image)
                         setSliderVal(0)
                     }}
@@ -127,7 +134,7 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
                 </button>
             </div>
             <div className='flip-img-container'>
-                <img src={updatedImage} alt="" />
+                <img src={flippedImage} alt="" />
                 <div className='slider-container'>
                     <span className='rotate-icon'>
                         <BiRotateLeft />

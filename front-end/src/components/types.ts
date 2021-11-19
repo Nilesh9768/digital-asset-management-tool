@@ -33,5 +33,6 @@ export type ImageDetailsProp = {
 
 export type presetType = {
     presetName: string,
-    image?: fetchedImageType
+    image?: fetchedImageType,
+    path:string
 }

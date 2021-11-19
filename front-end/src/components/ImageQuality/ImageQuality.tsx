@@ -12,6 +12,8 @@ export default function ImageQuality({ image, updatedImage, setUpdatedImage, set
     const [imageUrl, setImageUrl] = useState<string[]>([])
     const [originalSize, setOriginalSize] = useState<number>(0)
     const [newSize, setNewSize] = useState<number>(originalSize)
+    const [localImage,setLocalImage] = useState(updatedImage)
+    
     const qualities = ['Very Low', 'Low', 'Medium', 'High', 'Very High', 'Original']
     const qualityValue = [5, 20, 40, 100, 100, 100]
     const getQualityClassName = (idx: number): string => {
@@ -64,7 +66,7 @@ export default function ImageQuality({ image, updatedImage, setUpdatedImage, set
     }
     useEffect(() => {
 
-        const z = async () => {
+        const tempFun = async () => {
             let urlPromises = qualityValue.map(async (val) => {
 
                 const blob = await getImage(val)
@@ -77,8 +79,13 @@ export default function ImageQuality({ image, updatedImage, setUpdatedImage, set
             setNewSize(originalBlob.size)
             setActiveQuality(5)
         }
-        z()
+        tempFun()
     }, [image])
+
+    
+    useEffect(() => {
+        setLocalImage(updatedImage)
+    }, [])
     return (
         <div className='editor-body' >
 
@@ -119,7 +126,7 @@ export default function ImageQuality({ image, updatedImage, setUpdatedImage, set
                     value='Reset'
                     className='reset-button'
                     onClick={() => {
-                        setUpdatedImage(image)
+                        setUpdatedImage(localImage)
                     }}
                 />
                 <button

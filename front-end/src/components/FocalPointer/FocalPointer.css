@@ -1,0 +1,72 @@
+/* .focal-pointer-main-container{
+
+    
+} */
+.focal-pointer-container {
+
+    display: grid;
+    grid-template-columns: 8fr 4fr;
+    margin-left: 15px;
+}
+
+.focal-img-container{
+    background-color: rgba(241, 243, 244, 0.8);
+    padding: 0 15px;
+    margin-bottom: 60px;
+    position: relative;
+    cursor: pointer;
+}
+
+.focal-tool-name{
+    text-align: left;
+    /* padding-left: 15px; */
+    font-weight: 700;
+    color: rgb(53, 52, 52);
+    font-size: 13.5px;
+}
+.focal-preview-canvas {
+    width: 100px;
+    height: 50px;
+    border: 1px solid greenyellow;
+}
+
+.focal-preview-container {
+
+    padding: 0 20px;
+    height: 86%;
+    overflow-y: scroll;
+}
+
+.original-image-canvas{
+
+    border: 2px solid red;
+}
+.focal-subgrid {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 13px;
+    margin: 5px auto;
+}
+
+/* #panaroma {
+    width: 100%;
+    height: 70px;
+}
+
+#portrait {
+
+    width: 100%;
+    height: 200px;
+}
+
+#square {
+    width: 100%;
+    height: 105px;
+}
+
+#landscape {
+
+    width: 100%;
+    height: 120px;
+} */

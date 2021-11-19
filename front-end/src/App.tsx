@@ -1,10 +1,14 @@
 import { useState, ChangeEvent, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from 'react-router-dom'
 import Home from './components/Home/Home';
 import Editor from './components/Editor/Editor';
 import ImageDetails from './components/ImageDetails/ImageDetails';
 import { fetchedImageType, presetType } from '../src/components/types'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import './App.css';
+
+toast.configure()
 function App() {
 
     const [image, setImage] = useState<string>('')
@@ -12,7 +16,9 @@ function App() {
     const [file, setFile] = useState<File>()
     const [blob, setBlob] = useState<Blob>()
     const [fetchedImages, setFetchedImages] = useState([])
-    const [showFileError,setShowFileError] = useState(false)
+    const [showFileError, setShowFileError] = useState(false)
+
+    // const history = useHistory()
     const onSelectFile = async (event: ChangeEvent<HTMLInputElement>) => {
 
         console.log(event.target.files)
@@ -29,7 +35,7 @@ function App() {
                     setImage(reader.result as string);
                     setUpdatedImage(reader.result as string)
                 });
-            }else{
+            } else {
                 console.log('Only png/jpeg/jpg/tiff/bmp/gif/eps types of image is allowed!')
                 setShowFileError(true)
             }
@@ -39,6 +45,7 @@ function App() {
 
     const uploadImage = async (presetName: string) => {
 
+        console.log('Uploading...')
         const data = new FormData()
         data.append('file', blob as Blob)
         data.append('upload_preset', 'codex_blog_thumbnail')
@@ -53,8 +60,6 @@ function App() {
         const url = img.secure_url
 
         try {
-
-
             const newPreset = JSON.stringify({
                 url,
                 metadata: {
@@ -63,19 +68,34 @@ function App() {
                 },
                 presetName
             })
-            const img = await fetch('https://digital-asset-management-tool.herokuapp.com/images', {
+            const response = await fetch('https://digital-asset-management-tool.herokuapp.com/images', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: newPreset
             })
-            console.log(await img.json(), 'imggg')
+            // console.log(await response.json(), 'imggg')
+            const data = await response.json()
+            if (data.error) {
+
+                toast.error(data.error, {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 2000
+                })
+                console.log(data.error)
+            } else {
+                console.log(data.message)
+                toast.success(data.message, {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 2000
+                })
+                window.location.href = '/'
+            }
+
         } catch (err) {
-
+            console.log(err)
         }
-
-
     }
 
     const getImages = async () => {
@@ -104,13 +124,16 @@ function App() {
                             image !== '' ?
                                 <Redirect to={{
                                     pathname: '/editor',
-                                    state: { presetName: `${file?.name.split('.')[0]}_${Date.now()}` } as presetType
+                                    state: {
+                                        presetName: `${file?.name.split('.')[0]}_${Date.now()}`,
+                                        path: '/'
+                                    } as presetType
                                 }} /> :
                                 <Home
                                     fetchedImages={fetchedImages}
                                     onSelectFile={onSelectFile}
-                                    showFileError = {showFileError}
-                                    setShowFileError = {setShowFileError}
+                                    showFileError={showFileError}
+                                    setShowFileError={setShowFileError}
                                 />
                         }
                     </Route>

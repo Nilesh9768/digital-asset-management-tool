@@ -3,8 +3,6 @@
     box-shadow: 0 1.5px 8px 3px rgb(211, 211, 212);
     width: 90%;
     height: 96%;
-    /* margin: 30px auto;
-    margin-bottom: 20px; */
     margin: 10px auto;
     display: flex;
     flex-direction: column;
@@ -31,6 +29,29 @@
     background-color: rgba(241, 243, 244, 0.8);
     position: relative;
     z-index: 10;
+}
+.preset-name-container{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.preset-name{
+
+    padding: 10px 24px;
+    text-align: left;
+    font-weight: 700;
+    color: rgb(53, 52, 52);
+    font-size: 14px;
+}
+
+.cross-icon{
+
+    position: relative;
+    top: 2px;
+    margin-right: 22px;
+    cursor: pointer;
+    color: rgba(53, 52, 52,0.6);;
 }
 
 .done-container{

@@ -20,6 +20,8 @@ export default function Overlay({ image, updatedImage, setUpdatedImage, setBlob 
     const [h_postion, setH_Position] = useState<string>('Left')
     const [v_postion, setV_Position] = useState<string>('Top')
     const [repeat, setRepeat] = useState<string>('false')
+    const [localImage,setLocalImage] = useState(updatedImage)
+   
     const [positionObj, setPositionObj] = useState<positionObjType>({
         'Left': 0,
         'H_Center': 0,
@@ -80,7 +82,10 @@ export default function Overlay({ image, updatedImage, setUpdatedImage, setBlob 
         repeat
     ])
 
-
+    
+    useEffect(() => {
+        setLocalImage(updatedImage)
+    }, [])
     const overLay = async () => {
         let watermark = await Jimp.read(overLayImage as string);
         watermark = watermark.resize(overlayDimension.width, overlayDimension.height)
@@ -187,7 +192,7 @@ export default function Overlay({ image, updatedImage, setUpdatedImage, setBlob 
                     type="button"
                     value='Reset'
                     className='reset-button'
-                    onClick={() => setUpdatedImage(image)}
+                    onClick={() => setUpdatedImage(localImage)}
                 />
                 <button
                     className='save'
