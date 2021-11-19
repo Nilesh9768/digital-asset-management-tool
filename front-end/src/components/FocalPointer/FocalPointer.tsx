@@ -14,8 +14,8 @@ export default function FocalPointer({ image, updatedImage, setUpdatedImage, set
     const landscapeCanvasRef = useRef<HTMLCanvasElement>(null)
     const [pointerStyle, setPointerStyle] = useState<CSSProperties>({
         position: 'absolute',
-        top: 80,
-        left: 90,
+        top: 400,
+        left: 600,
         display: 'block',
         width: 30,
         height: 30,
@@ -30,21 +30,25 @@ export default function FocalPointer({ image, updatedImage, setUpdatedImage, set
     useEffect(() => {
         console.log('this is useEff')
         drawOnCanvas(originalCanvasRef.current as HTMLCanvasElement, 0, 0)
-     
-    },[])
 
-    useEffect(()=>{
+    }, [])
+
+    useEffect(() => {
         console.log('focal use')
         setPointerStyle((prevState) => ({
             ...prevState,
             left: focalPoint.x,
             top: focalPoint.y + 30
         }))
-        drawOnCanvas_2(panaromaCanvasRef.current as HTMLCanvasElement, 0, focalPoint.y)
+        // drawOnCanvas_2(panaromaCanvasRef.current as HTMLCanvasElement, 0, focalPoint.y)
+        drawPanaroma()
+        drawPortrait()
+        drawSquare()
+        drawLandscape()
         // drawOnCanvas_2(portraitCanvasRef.current as HTMLCanvasElement, focalPoint.x, 0)
         // drawOnCanvas_2(squareCanvasRef.current as HTMLCanvasElement, focalPoint.x, focalPoint.y)
         // drawOnCanvas_2(landscapeCanvasRef.current as HTMLCanvasElement, focalPoint.x - 100, focalPoint.y - 60)
-    },[focalPoint.x,focalPoint.y])
+    }, [focalPoint.x, focalPoint.y])
 
     const drawOnCanvas = async (canvas: HTMLCanvasElement, x: number, y: number) => {
 
@@ -52,24 +56,41 @@ export default function FocalPointer({ image, updatedImage, setUpdatedImage, set
         const img = await createImageFromUrl(updatedImage) as HTMLImageElement
         canvas.width = 560
         canvas.height = 350
-        
         ctx?.drawImage(img, x, y, img.width, img.height, 0, 0, canvas.width, canvas.height)
     }
 
-    const drawOnCanvas_2 = async (canvas: HTMLCanvasElement, x: number, y: number) => {
+    const drawPanaroma = async() => {
 
-        
-        const jimpImage = await Jimp.read(updatedImage)
-        jimpImage.crop(x,y - jimpImage.getHeight()/2,560,750)
-        const MIME = jimpImage.getMIME()
-        const u = await jimpImage.getBase64Async(MIME)
-        // setUpdatedImage(u)
+        let y = focalPoint.y <= 50 || focalPoint.y >= 200 ? focalPoint.y : focalPoint.y - 50
+        const img = await createImageFromUrl(updatedImage) as HTMLImageElement
+        drawOnCanvas_2(panaromaCanvasRef.current as HTMLCanvasElement, 0, y,img.width,300)
+
+    }
+
+    const drawPortrait = async() =>{
+        let x = focalPoint.x <= 100 || focalPoint.x >= 460 ? focalPoint.x : focalPoint.x + 100
+        const img = await createImageFromUrl(updatedImage) as HTMLImageElement
+        drawOnCanvas_2(portraitCanvasRef.current as HTMLCanvasElement, x, 0,350,img.height)
+    }
+
+    const drawLandscape = async() => {
+
+        let y = focalPoint.y <= 55 || focalPoint.y >= 195 ? focalPoint.y : focalPoint.y - 55
+        const img = await createImageFromUrl(updatedImage) as HTMLImageElement
+        drawOnCanvas_2(landscapeCanvasRef.current as HTMLCanvasElement, 0, y,img.width,330)
+
+    }
+
+    const drawSquare = async()=>{
+        const img = await createImageFromUrl(updatedImage) as HTMLImageElement
+        drawOnCanvas_2(squareCanvasRef.current as HTMLCanvasElement, focalPoint.x, focalPoint.y,300,300)
+    }
+
+    const drawOnCanvas_2 = async (canvas: HTMLCanvasElement, x: number, y: number, w: number, h: number) => {
+
         const ctx = canvas.getContext('2d')
-        const img = await createImageFromUrl(u) as HTMLImageElement
-        // canvas.width = 560
-        // canvas.height = 350
-        console.log('drae2')
-        ctx?.drawImage(img, x, y,img.width, img.height, 0, 0, canvas.width, canvas.height)
+        const img = await createImageFromUrl(updatedImage) as HTMLImageElement
+        ctx?.drawImage(img, x, y, w, h, 0, 0, canvas.width, canvas.height)
     }
 
     const onCanvasClick = (e: React.MouseEvent<Element, MouseEvent>) => {
@@ -86,7 +107,7 @@ export default function FocalPointer({ image, updatedImage, setUpdatedImage, set
                     <canvas
                         className='original-image-canvas'
                         ref={originalCanvasRef}
-                        onClick={(e)=>onCanvasClick(e)}
+                        onClick={(e) => onCanvasClick(e)}
                     >
 
                     </canvas>

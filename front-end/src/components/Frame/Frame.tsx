@@ -8,7 +8,7 @@ import { getHexVal } from '../../commonFunctions/commonFunction'
 
 export default function Frame({ image, updatedImage, setUpdatedImage, setBlob }: ToolProp) {
 
-    const [padding, setPadding] = useState<number>(10)
+    const [padding, setPadding] = useState<number>(30)
     const [framedImage, setFramedImage] = useState<string>(updatedImage)
     const [showColorPicker, setShowColorPicker] = useState<boolean>(false)
     const [hex, setHex] = useState<string>('rgb(0,103,255)')
