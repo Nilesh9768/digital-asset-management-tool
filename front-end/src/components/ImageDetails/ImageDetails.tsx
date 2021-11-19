@@ -62,7 +62,8 @@ export default function ImageDetails({ image,setImage,setUpdatedImage }: ImageDe
                                     pathname: '/editor',
                                     state: {
                                         presetName,
-                                        image
+                                        image,
+                                        path:`images/${image._id}/${image.preset_name}`
                                     }
                                 }}>Next</Link>
                             </div> :

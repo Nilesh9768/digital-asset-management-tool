@@ -24,19 +24,24 @@ export default function ColorPicker({ setColor, hideColorPicker, color }: ColorP
     const divRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        createColorPicker(canvasRef.current as HTMLCanvasElement, sliderColor)
-        createSlider(sliderRef.current as HTMLCanvasElement)
-        const div = divRef.current as HTMLDivElement
-        div.style.backgroundColor = selectedColor
+        const tempFun = () => {
+            createColorPicker(canvasRef.current as HTMLCanvasElement, sliderColor)
+            createSlider(sliderRef.current as HTMLCanvasElement)
+            const div = divRef.current as HTMLDivElement
+            div.style.backgroundColor = selectedColor
+        }
+        tempFun()
     }, [])
 
     useEffect(() => {
-        console.log(sliderColor===selectedColor)
-        if(sliderColor !== selectedColor)
-        createColorPicker(canvasRef.current as HTMLCanvasElement, sliderColor)
+        const tempFun = ()=>{
+            if (sliderColor !== selectedColor)
+            createColorPicker(canvasRef.current as HTMLCanvasElement, sliderColor)
         setSelectedColor(getColor(canvasRef.current as HTMLCanvasElement, circlePosition.x, circlePosition.y) as string)
         const div = divRef.current as HTMLDivElement
         div.style.backgroundColor = sliderColor
+        }
+        tempFun()
     }, [sliderColor])
 
     useEffect(() => {
@@ -110,9 +115,9 @@ export default function ColorPicker({ setColor, hideColorPicker, color }: ColorP
             <p>Select From Template</p>
             <div className='color-template-container'>
                 {
-                    templateColors.map(color => {
+                    templateColors.map((color,idx) => {
                         return (
-                            <div
+                            <div key={idx}
                                 className='color-template'
                                 style={{ backgroundColor: color }}
                                 onClick={() => setSelectedColor(color)}
@@ -145,7 +150,7 @@ export default function ColorPicker({ setColor, hideColorPicker, color }: ColorP
 
                 <div className='color-slider-container'>
                     <canvas
-                        className='canvas'
+                        className='color-slider-canvas'
                         ref={sliderRef}
                         onClick={(e) => onSliderClick(e)}
                         onMouseMove={(e) => onSliderDrag(e)}

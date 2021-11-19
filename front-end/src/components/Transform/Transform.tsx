@@ -10,9 +10,15 @@ import 'rc-slider/assets/index.css'
 import './Transform.css'
 export default function Transform({ image, updatedImage, setUpdatedImage, setBlob }: ToolProp) {
 
+    
     const [flippedImage, setFlippedImage] = useState(updatedImage)
     const [receivedBlob, setReceivedBlob] = useState<Blob>()
     const [sliderVal, setSliderVal] = useState<number>(0)
+    const [localImage, setLocalImage] = useState(updatedImage)
+    const [imageFile, setImageFile] = useState<HTMLImageElement>()
+    const [width, setWidth] = useState<number>(imageFile?.width as number)
+    const [height, setHeight] = useState<number>(imageFile?.height as number)
+   
     const flipImage = async (direction: string) => {
 
         const img = await createImageFromUrl(flippedImage) as HTMLImageElement;
@@ -40,7 +46,7 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
     }
 
     const rotateImage = async (angle: number) => {
-        console.log(angle,'rotate')
+
         const img = await createImageFromUrl(updatedImage) as HTMLImageElement;
         const canvas = document.createElement("canvas");
         canvas.width = img.naturalWidth;
@@ -71,7 +77,6 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
 
     const handleRotate = async (angle: number) => {
         const blob = await rotateImage(angle) as Blob
-        // console.log(angle,'handle')
         setReceivedBlob(blob)
         setFlippedImage(URL.createObjectURL(blob))
     }
@@ -81,21 +86,67 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
     }
 
     const onSliderChange = (val: number) => {
-        console.log(val,'val')
+        console.log(val, 'val')
         setSliderVal(val)
-       
+
     }
 
-    useEffect(()=>{
-        console.log(sliderVal,'eff')
+    const onDimensionChange = (width: number, height: number) => {
+        setWidth(width)
+        setHeight(height)
+    }
+
+
+    const resize = async () => {
+        const img = await createImageFromUrl(updatedImage) as HTMLImageElement
+        const canvas = document.createElement("canvas");
+        img.width = width
+        img.height = height
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        const context = canvas.getContext("2d");
+        context?.drawImage(img, 0, 0)
+
+        canvas.toBlob((blob) => {
+            setFlippedImage(URL.createObjectURL(blob))
+            setReceivedBlob(blob as Blob)
+        })
+    }
+    useEffect(() => {
+
+        if (width > 0 && height > 0) {
+            resize()
+        }
+
+    }, [height,width])
+
+
+    useEffect(() => {
+        console.log(sliderVal, 'eff')
         handleRotate(sliderVal * Math.PI / 180)
-    },[sliderVal])
+    }, [sliderVal])
+
+
+    useEffect(() => {
+        const tempFun = async () => {
+            setLocalImage(updatedImage)
+            const img = await createImageFromUrl(updatedImage) as HTMLImageElement
+            setImageFile(img)
+            onDimensionChange(img.naturalWidth,img.naturalHeight)
+        }
+        tempFun()
+    }, [])
 
     return (
         <div className='editor-body'>
             <div className='editor-body-sidebar'>
                 <p className='tool-name'>Transform</p>
-                <DimensionInput />
+                <DimensionInput
+                    onDimensionChange={onDimensionChange}
+                    widthVal={width}
+                    heightVal={height}
+                />
                 <p className='section-label'>FLIP</p>
                 <div className='flip-sidebar'>
                     <div className='right flip-icon' onClick={() => handleFlip('x')}>
@@ -107,15 +158,15 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
                         <p>Flip Vertically</p>
                     </div>
                 </div>
-                <p className='section-label'>PREVIEW</p>
-                <img className='preview-image' src={flippedImage} width='100' height='100' alt="" />
+                {/* <p className='section-label'>PREVIEW</p>
+                <img className='preview-image' src={flippedImage} width='100' height='100' alt="" /> */}
                 <input
                     type="button"
                     value='Reset'
                     className='reset-button'
                     onClick={() => {
-                        setUpdatedImage(image)
-                        setFlippedImage(image)
+                        setUpdatedImage(localImage)
+                        setFlippedImage(localImage)
                         setSliderVal(0)
                     }}
                 />
@@ -127,7 +178,7 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
                 </button>
             </div>
             <div className='flip-img-container'>
-                <img src={updatedImage} alt="" />
+                <img src={flippedImage} alt="" />
                 <div className='slider-container'>
                     <span className='rotate-icon'>
                         <BiRotateLeft />

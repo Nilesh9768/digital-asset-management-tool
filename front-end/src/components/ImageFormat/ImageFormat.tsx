@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AiOutlineFileImage } from "react-icons/ai";
 import { ToolProp } from '../types';
 import jimp from 'jimp'
@@ -10,6 +10,8 @@ export default function ImageFormat({ image, updatedImage, setUpdatedImage, setB
     const [activeFormat, setActiveFormat] = useState<number>()
     const formats = ['PNG', 'JPG', 'TIFF', 'BMP', 'GIF', 'EPS']
     const [newBlob, setNewBlob] = useState<Blob>()
+    const [localImage,setLocalImage] = useState(updatedImage)
+    
     const getFormatClassName = (idx: number): string => {
 
         let cl_name = idx % 2 === 0 ? 'right' : 'left'
@@ -35,6 +37,12 @@ export default function ImageFormat({ image, updatedImage, setUpdatedImage, setB
         setBlob(newBlob as Blob)
         setUpdatedImage(URL.createObjectURL(newBlob))
     }
+
+
+    useEffect(() => {
+        setLocalImage(updatedImage)
+    }, [])
+
     return (
         <div className='editor-body'>
             <div className='editor-body-sidebar'>
@@ -59,7 +67,7 @@ export default function ImageFormat({ image, updatedImage, setUpdatedImage, setB
                         type="button"
                         value='Reset'
                         className='reset-button'
-                        onClick={() => setUpdatedImage(image)}
+                        onClick={() => setUpdatedImage(localImage)}
                     />
                     <button
                         className='save'

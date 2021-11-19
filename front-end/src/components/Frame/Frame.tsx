@@ -12,6 +12,8 @@ export default function Frame({ image, updatedImage, setUpdatedImage, setBlob }:
     const [framedImage, setFramedImage] = useState<string>(updatedImage)
     const [showColorPicker, setShowColorPicker] = useState<boolean>(false)
     const [hex, setHex] = useState<string>('rgb(0,103,255)')
+    const [localImage,setLocalImage] = useState(updatedImage)
+   
 
     const setColor = (hex: string) => {
         setHex(hex)
@@ -48,15 +50,24 @@ export default function Frame({ image, updatedImage, setUpdatedImage, setBlob }:
     }
 
     useEffect(() => {
-        (async () => {
+       const tempFun = async () => {
             const blob = await addFrame()
             setFramedImage(URL.createObjectURL(blob))
-        })()
+        }
+        tempFun()
     }, [padding, hex])
 
     useEffect(()=>{
-        setFramedImage(updatedImage)
+        const tempFun = () =>{
+            setFramedImage(updatedImage)
+        }
+        tempFun()
     },[])
+
+    
+    useEffect(() => {
+        setLocalImage(updatedImage)
+    }, [])
     
     const onSave = async () => {
 
@@ -114,7 +125,7 @@ export default function Frame({ image, updatedImage, setUpdatedImage, setBlob }:
                     value='Reset'
                     className='reset-button'
                     onClick={() => {
-                        setUpdatedImage(image)
+                        setUpdatedImage(localImage)
                     }}
                 />
                 <button

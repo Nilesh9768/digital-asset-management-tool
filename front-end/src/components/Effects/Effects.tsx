@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from 'react'
+import { CSSProperties, useEffect, useState } from 'react'
 import { handleStyle, railStyle, trackStyle, effectsProperties } from '../CustomeSliders/CustomSliders'
 import { ToolProp } from '../types'
 import Slider from 'rc-slider'
@@ -8,7 +8,8 @@ import { createImageFromUrl } from '../../commonFunctions/commonFunction'
 import './Effects.css'
 export default function Effects({ image, updatedImage, setUpdatedImage, setBlob }: ToolProp) {
 
-
+    const [localImage, setLocalImage] = useState(updatedImage)
+    
     const [effects, setEffects] = useState({
         'brightness': 100,
         'contrast': 100,
@@ -73,6 +74,11 @@ export default function Effects({ image, updatedImage, setUpdatedImage, setBlob 
         setBlob(blob as Blob)
         setUpdatedImage(URL.createObjectURL(blob))
     }
+
+    useEffect(() => {
+        setLocalImage(updatedImage)
+    }, [])
+
     return (
         <div className='editor-body'>
             <div className='editor-body-sidebar'>
@@ -110,8 +116,8 @@ export default function Effects({ image, updatedImage, setUpdatedImage, setBlob 
                     value='Reset'
                     className='reset-button'
                     onClick={() => {
-                        setUpdatedImage(image)
-                        // setFlippedImage(image)
+                        setUpdatedImage(localImage)
+                       
                     }}
                 />
                 <button
