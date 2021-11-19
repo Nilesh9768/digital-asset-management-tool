@@ -20,8 +20,8 @@
 }
 
 .flip-img-container img {
-    max-width: 95%;
-    /* height: 75%; */
+    max-width: 90%;
+    max-height: 90%;
     margin: 10px auto;
     position: absolute;
     top: 0;

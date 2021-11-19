@@ -61,10 +61,18 @@
     height: 120px;
     
 }
+
+.color-slider-canvas{
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
 .canvas{
     
     cursor: pointer;
     width: 100%;
+    max-width: 110px;
     height: 100%;
     border-radius: 5px;
 }

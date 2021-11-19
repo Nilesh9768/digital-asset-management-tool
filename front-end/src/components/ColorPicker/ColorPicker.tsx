@@ -150,7 +150,7 @@ export default function ColorPicker({ setColor, hideColorPicker, color }: ColorP
 
                 <div className='color-slider-container'>
                     <canvas
-                        className='canvas'
+                        className='color-slider-canvas'
                         ref={sliderRef}
                         onClick={(e) => onSliderClick(e)}
                         onMouseMove={(e) => onSliderDrag(e)}

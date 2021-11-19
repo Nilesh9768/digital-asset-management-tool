@@ -35,7 +35,7 @@ export default function Overlay({ image, updatedImage, setUpdatedImage, setBlob 
         width: 200,
         height: 100
     })
-
+ 
     const onSelect = async (event: ChangeEvent<HTMLInputElement>) => {
 
         let files = event.target.files
@@ -122,7 +122,6 @@ export default function Overlay({ image, updatedImage, setUpdatedImage, setBlob 
     }
 
     const onDimensionChange = (width: number, height: number) => {
-        console.log('addf', width, height)
         setOverlayDimension((prevState) => ({
             ...prevState,
             width: width,

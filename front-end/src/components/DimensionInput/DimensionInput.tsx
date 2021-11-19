@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 
 type DimensionInputProp = {
     onDimensionChange?: (width: number, height: number) => void,
-    widthVal?: number,
-    heightVal?: number
+    widthVal: number,
+    heightVal: number
 }
 export default function DimensionInput({ onDimensionChange,widthVal,heightVal }: DimensionInputProp) {
 
-    const [width, setWidth] = useState<number>(200)
-    const [height, setHeight] = useState<number>(100)
+    const [width, setWidth] = useState<number>(widthVal)
+    const [height, setHeight] = useState<number>(heightVal)
 
 
     useEffect(() => {
