@@ -44,8 +44,6 @@ export default function Overlay({ image, updatedImage, setUpdatedImage, setBlob 
             reader.readAsDataURL(files[0])
             reader.addEventListener('load', async () => {
                 setOverLayImage(reader.result as string)
-                console.log(reader.result)
-
             })
         }
     }
@@ -54,7 +52,6 @@ export default function Overlay({ image, updatedImage, setUpdatedImage, setBlob 
         (async () => {
 
             const img = await Jimp.read(updatedImage)
-            console.log(img.getHeight())
             setPositionObj({
                 'Left': 0,
                 'H_Center': img.getWidth() / 2 - overlayDimension.width / 2,
@@ -107,7 +104,6 @@ export default function Overlay({ image, updatedImage, setUpdatedImage, setBlob 
         const MIME = img.getMIME()
         const buffer = await img.getBufferAsync(MIME)
         const blob = new Blob([buffer as BlobPart], { type: MIME })
-        console.log(blob)
         return new Promise((resolve) => {
             resolve(blob)
         })

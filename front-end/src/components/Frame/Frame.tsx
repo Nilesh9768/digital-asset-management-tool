@@ -8,7 +8,7 @@ import { getHexVal } from '../../commonFunctions/commonFunction'
 
 export default function Frame({ image, updatedImage, setUpdatedImage, setBlob }: ToolProp) {
 
-    const [padding, setPadding] = useState<number>(10)
+    const [padding, setPadding] = useState<number>(30)
     const [framedImage, setFramedImage] = useState<string>(updatedImage)
     const [showColorPicker, setShowColorPicker] = useState<boolean>(false)
     const [hex, setHex] = useState<string>('rgb(0,103,255)')
@@ -78,7 +78,7 @@ export default function Frame({ image, updatedImage, setUpdatedImage, setBlob }:
     }
     return (
         <div className='editor-body' >
-            {/* {console.log(addFrame())} */}
+           
             <div className='editor-body-sidebar'>
                 <p className='tool-name'>Frames</p>
                 <div>

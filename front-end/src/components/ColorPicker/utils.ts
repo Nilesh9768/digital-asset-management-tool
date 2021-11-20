@@ -44,10 +44,6 @@ export const getColor = (canvas: HTMLCanvasElement, x: number, y: number) => {
     const context = canvas?.getContext('2d')
     const pixel = context?.getImageData(x, y, 1, 1).data;
     let rgb = ''
-    // for (let i = 0; i < 3; i++) {
-    //     if (pixel)
-    //         hex += pixel[i].toString(16)
-    // }
     if (pixel)
         rgb = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
 
@@ -78,21 +74,16 @@ export const drag = (e: React.MouseEvent<Element, MouseEvent>, canvas: HTMLCanva
 
     let x = e.clientX - left;
     let y = e.clientY - top;
-
-    console.log(x, y)
-
     return ({ x, y })
 
 }
 
 export const handleClick = (e: React.MouseEvent<Element, MouseEvent>, canvas: HTMLCanvasElement) => {
 
-    // console.log(e,canvas)
     var rect = canvas?.getBoundingClientRect() as DOMRect;
     const { left, top } = rect
     let x = e.clientX - left
     let y = e.clientY - top
-    console.log(x, y, left, top)
     return ({ x, y })
 }
 

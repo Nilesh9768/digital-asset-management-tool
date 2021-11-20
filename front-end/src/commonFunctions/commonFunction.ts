@@ -13,12 +13,12 @@ export const createImageFromUrl = (url: string) => {
     })
 }
 
-export const getHexVal = (rgb : string) =>{
+export const getHexVal = (rgb: string) => {
 
     const substr = rgb.substr(4)
     const rgbArr = substr.split(')')[0].split(',')
     let hex = ''
-    for(let i = 0 ; i < rgbArr.length ;i++){
+    for (let i = 0; i < rgbArr.length; i++) {
         hex += parseInt(rgbArr[i]).toString(16)
     }
     return hex.toUpperCase()
