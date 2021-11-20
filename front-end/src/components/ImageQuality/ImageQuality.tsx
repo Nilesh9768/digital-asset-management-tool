@@ -30,19 +30,16 @@ export default function ImageQuality({ image, updatedImage, setUpdatedImage, set
         canvas.width = img.naturalWidth;
         canvas.height = img.naturalHeight;
 
-      
         const context = canvas.getContext("2d");
         context?.drawImage(img, 0, 0)
-        // console.log(context?.getImageData(10,10,1,1))
         const b = await new Promise((resolve) => {
             canvas.toBlob((blob) => {
                 resolve(blob)
             }, 'image/jpeg', quality / 100)
         })
 
-        console.log(b, 'xyz')
-        const z = await Jimp.read(image)
-        const MIME = z.getMIME()
+        const tempImage = await Jimp.read(image)
+        const MIME = tempImage.getMIME()
         const jimpImage = await Jimp.read(URL.createObjectURL(b))
         const buffer = await jimpImage.getBufferAsync(MIME)
         const blob = new Blob([buffer as BlobPart], { type: MIME })
@@ -56,11 +53,9 @@ export default function ImageQuality({ image, updatedImage, setUpdatedImage, set
         setActiveQuality(idx)
         const blob = await getImage(qualityValue[idx]) as Blob
         setNewSize(blob.size)
-        console.log(blob)
     }
     const onSave = async () => {
         const blob = await getImage(qualityValue[activeQuality])
-        console.log(blob)
         setUpdatedImage(URL.createObjectURL(blob))
         setBlob(blob as Blob)
     }
@@ -90,7 +85,7 @@ export default function ImageQuality({ image, updatedImage, setUpdatedImage, set
         <div className='editor-body' >
 
             <div className='editor-body-sidebar'>
-                {/* {console.log(imageUrl)} */}
+                
                 <p className='tool-name'>Image Quality</p>
                 <div className='quality-sidebar'>
                     {

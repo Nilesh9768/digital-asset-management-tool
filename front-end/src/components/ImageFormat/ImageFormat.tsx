@@ -20,15 +20,11 @@ export default function ImageFormat({ image, updatedImage, setUpdatedImage, setB
     }
 
     const setFormat = async (idx: number) => {
-        console.log(formats[idx])
+       
         setActiveFormat(idx)
-
         const img = await jimp.read(updatedImage)
-        console.log(typeof img.getMIME())
         const buffer = await img.getBufferAsync(img.getMIME())
         const blob = new Blob([buffer as BlobPart], { type: `image/${formats[idx]}` })
-        console.log(blob)
-
         setNewBlob(blob)
 
     }

@@ -3,7 +3,7 @@ import { createImageFromUrl } from '../../commonFunctions/commonFunction'
 import { getClickPosition } from '../../commonFunctions/commonFunction'
 import { ToolProp } from '../types'
 import './FocalPointer.css'
-import Jimp from 'jimp'
+
 export default function FocalPointer({ image, updatedImage, setUpdatedImage, setBlob }: ToolProp) {
 
     const [focalPoint, setFocalPoint] = useState({ x: 90, y: 170 })
@@ -28,26 +28,24 @@ export default function FocalPointer({ image, updatedImage, setUpdatedImage, set
     })
 
     useEffect(() => {
-        console.log('this is useEff')
+        
         drawOnCanvas(originalCanvasRef.current as HTMLCanvasElement, 0, 0)
 
     }, [])
 
     useEffect(() => {
-        console.log('focal use')
+        
         setPointerStyle((prevState) => ({
             ...prevState,
             left: focalPoint.x,
             top: focalPoint.y + 30
         }))
-        // drawOnCanvas_2(panaromaCanvasRef.current as HTMLCanvasElement, 0, focalPoint.y)
+        
         drawPanaroma()
         drawPortrait()
         drawSquare()
         drawLandscape()
-        // drawOnCanvas_2(portraitCanvasRef.current as HTMLCanvasElement, focalPoint.x, 0)
-        // drawOnCanvas_2(squareCanvasRef.current as HTMLCanvasElement, focalPoint.x, focalPoint.y)
-        // drawOnCanvas_2(landscapeCanvasRef.current as HTMLCanvasElement, focalPoint.x - 100, focalPoint.y - 60)
+        
     }, [focalPoint.x, focalPoint.y])
 
     const drawOnCanvas = async (canvas: HTMLCanvasElement, x: number, y: number) => {

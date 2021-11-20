@@ -78,7 +78,7 @@ export default function Frame({ image, updatedImage, setUpdatedImage, setBlob }:
     }
     return (
         <div className='editor-body' >
-            {/* {console.log(addFrame())} */}
+           
             <div className='editor-body-sidebar'>
                 <p className='tool-name'>Frames</p>
                 <div>

@@ -86,9 +86,7 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
     }
 
     const onSliderChange = (val: number) => {
-        console.log(val, 'val')
         setSliderVal(val)
-
     }
 
     const onDimensionChange = (width: number, height: number) => {
@@ -123,7 +121,6 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
 
 
     useEffect(() => {
-        console.log(sliderVal, 'eff')
         handleRotate(sliderVal * Math.PI / 180)
     }, [sliderVal])
 
@@ -158,8 +155,6 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
                         <p>Flip Vertically</p>
                     </div>
                 </div>
-                {/* <p className='section-label'>PREVIEW</p>
-                <img className='preview-image' src={flippedImage} width='100' height='100' alt="" /> */}
                 <input
                     type="button"
                     value='Reset'
@@ -195,9 +190,6 @@ export default function Transform({ image, updatedImage, setUpdatedImage, setBlo
                                 backgroundColor: "rgba(101, 88, 218, 1)",
                                 border: 'none',
                             }}
-                            // railStyle={{
-                            //     backgroundColor:'rgba(59, 58, 58,0.6)'
-                            // }}
                             trackStyle={{
                                 background: "rgba(101, 88, 218, 1)"
                             }}

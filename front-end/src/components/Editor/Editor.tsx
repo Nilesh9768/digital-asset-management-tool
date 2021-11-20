@@ -25,21 +25,11 @@ function Editor({ image, setImage, updatedImage, setUpdatedImage, setBlob, uploa
 
     const [activeTool, setActiveTool] = useState(0)
     const toggleActiveTool = (index: number) => {
-        console.log(index)
         setActiveTool(index)
     }
     const location = useLocation()
     const state = location.state as presetType
-    console.log(state.presetName, 'location')
-    // const {presetName} = location.state
-
-    // useEffect(()=>{
-
-    //     if(state.image){
-    //         setUpdatedImage(state.image.url)
-    //         setImage(state.image.url)
-    //     }
-    // },[])
+   
     const renderActiveTool = () => {
         switch (activeTool) {
 
@@ -109,7 +99,7 @@ function Editor({ image, setImage, updatedImage, setUpdatedImage, setBlob, uploa
         <div className='editor-done-container'>
             <div className='preset-name-container'>
                 <div className='preset-name'>
-                    {console.log(state.presetName)}
+                   
                     {state.presetName}
                 </div>
                 <Link to={state.path} onClick={()=>setImage('')}>

@@ -15,7 +15,6 @@ export default function DimensionInput({ onDimensionChange,widthVal,heightVal }:
 
         const tempFun = () =>{
             if (onDimensionChange) {
-                console.log(width, height)
                 onDimensionChange(width, height)
             }
         }

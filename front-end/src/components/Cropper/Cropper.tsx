@@ -3,7 +3,7 @@ import ReactCropper from 'react-easy-crop';
 import DimensionInput from '../DimensionInput/DimensionInput';
 import { createImageFromUrl } from '../../commonFunctions/commonFunction';
 import { ToolProp } from '../types';
-// import 'react-easy-crop/react-easy-crop.css'
+
 import {
     MdOutlineCircle,
     MdCrop169,
@@ -38,8 +38,6 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
 
     const CropperStyle = {
         containerStyle,
-        // mediaStyle,
-        // cropAreaStyle
     }
 
     useEffect(() => {
@@ -52,7 +50,6 @@ export default function Cropper({ image, updatedImage, setUpdatedImage, setBlob 
         setIsCustom(showDimensionInput)
     }
     const onCropComplete = async (croppedAreaPercentage: Area, croppedAreaPixels: Area) => {
-        console.log(croppedAreaPixels)
         setCroppedArea(croppedAreaPixels)
     }
 

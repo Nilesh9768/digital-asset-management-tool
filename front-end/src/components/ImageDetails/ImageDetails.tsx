@@ -45,7 +45,7 @@ export default function ImageDetails({ image,setImage,setUpdatedImage }: ImageDe
                     {
                         showInput ?
                             <div className='preset-input-container'>
-                                {console.log(presetName)}
+                                
                                 <input
                                     className='preset-input'
                                     type="text"
