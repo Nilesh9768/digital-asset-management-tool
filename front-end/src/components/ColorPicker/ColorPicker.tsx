@@ -128,7 +128,7 @@ export default function ColorPicker({ setColor, hideColorPicker, color }: ColorP
                 <div className='picker-container'>
                     <canvas
                         className='canvas'
-                        width={110}
+                        width={130}
                         height={120}
                         ref={canvasRef}
                         onClick={(e) => onCanvasClick(e)}

@@ -52,7 +52,7 @@ export default function FocalPointer({ image, updatedImage, setUpdatedImage, set
 
         const ctx = canvas.getContext('2d')
         const img = await createImageFromUrl(updatedImage) as HTMLImageElement
-        canvas.width = 560
+        canvas.width = 670
         canvas.height = 350
         ctx?.drawImage(img, x, y, img.width, img.height, 0, 0, canvas.width, canvas.height)
     }

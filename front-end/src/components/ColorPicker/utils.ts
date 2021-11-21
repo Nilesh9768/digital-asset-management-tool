@@ -80,10 +80,8 @@ export const drag = (e: React.MouseEvent<Element, MouseEvent>, canvas: HTMLCanva
 
 export const handleClick = (e: React.MouseEvent<Element, MouseEvent>, canvas: HTMLCanvasElement) => {
 
-    var rect = canvas?.getBoundingClientRect() as DOMRect;
-    const { left, top } = rect
-    let x = e.clientX - left
-    let y = e.clientY - top
+    let x = e.nativeEvent.offsetX
+    let y = e.nativeEvent.offsetY
     return ({ x, y })
 }
 

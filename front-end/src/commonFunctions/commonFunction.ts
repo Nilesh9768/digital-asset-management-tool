@@ -26,11 +26,7 @@ export const getHexVal = (rgb: string) => {
 
 export const getClickPosition = (e: React.MouseEvent<Element, MouseEvent>, canvas: HTMLCanvasElement) => {
 
-    // console.log(e,canvas)
-    var rect = canvas?.getBoundingClientRect() as DOMRect;
-    const { left, top } = rect
-    let x = e.clientX - left
-    let y = e.clientY - top
-    console.log(x, y, left, top)
+    let x = e.nativeEvent.offsetX
+    let y = e.nativeEvent.offsetY
     return ({ x, y })
 }
